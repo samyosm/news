@@ -1,15 +1,22 @@
-#[derive(Debug)]
-pub struct NewsCategories<'a> {
-    name: &'a str,
-    news: Vec<News<'a>>,
+use serde::Deserialize;
+use serde::Serialize;
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct NewsCategories {
+    pub name: String,
+    pub news: Vec<News>,
 }
 
-#[derive(Debug)]
-pub struct News<'a> {
-    source: &'a str,
-    title: &'a str,
-    url: &'a str,
-    author: &'a str,
-    preview: &'a str,
-    content: &'a str,
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct News {
+    #[serde(rename = "_id")]
+    pub id: String,
+    pub source: Option<String>,
+    pub author: Option<String>,
+    pub url: String,
+    pub title: String,
+    pub preview: Option<String>,
+    pub content: String,
 }

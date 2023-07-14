@@ -14,17 +14,19 @@ use super::{state, ui};
 
 #[derive(Derivative)]
 #[derivative(Debug)]
-pub struct App<'a> {
-    pub categories: Vec<NewsCategories<'a>>,
+pub struct App {
+    pub categories: Vec<NewsCategories>,
     pub selected_index: usize,
+    pub selected_news: usize,
     pub online: bool,
 }
 
-impl<'a> App<'a> {
-    pub fn new(categories: Vec<NewsCategories<'a>>) -> Self {
+impl App {
+    pub fn new(categories: Vec<NewsCategories>) -> Self {
         Self {
             categories,
             selected_index: 0,
+            selected_news: 0,
             online: true,
         }
     }
