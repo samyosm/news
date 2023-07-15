@@ -1,4 +1,4 @@
-use std::{io};
+use std::io;
 
 use ratatui::{
     backend::CrosstermBackend,
