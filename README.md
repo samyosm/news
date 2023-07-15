@@ -3,25 +3,27 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/samy_osmium?style=for-the-badge)](https://twitter.com/intent/follow?screen_name=samy_osmium)
 [![GitHub issues](https://img.shields.io/github/issues/samyosm/habitify-cli?style=for-the-badge)](https://github.com/samyosm/news/issues)
 
-News is a text user interface that allows you to consume daily news in multiple categories like technology, science, health and so on.
+News is a text user interface that allows you to consume daily news in multiple categories like technology, science, health, and so on.
+
+![Screenshot 2023-07-15 03-21-17](https://github.com/samyosm/news/assets/99157490/221aa1ed-b892-4e87-8995-189ebb899f7b)
 
 ## Installation
 ### Using Cargo
-```console
-$ cargo install news
+```sh
+cargo install news
 ```
 
 ### Manual Build
-```console
-$ git clone https://github.com/samyosm/news.git
-$ cd news
-$ cargo build
+```sh
+git clone https://github.com/samyosm/news.git
+cd news
+cargo build
 ```
 
 ## Usage
 
-```console
-$ news
+```sh
+news
 ```
 
 ### Home Page
