@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use crossterm::event::{Event, KeyCode, KeyEvent};
 
 use super::app::{App, NewsPage, Page};
