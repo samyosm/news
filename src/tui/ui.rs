@@ -9,7 +9,7 @@ use ratatui::{
     Frame,
 };
 
-use super::app::{App, Page};
+use super::app::{App, NewsPage, Page};
 
 pub fn ui(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
     match &app.page {
@@ -22,7 +22,7 @@ pub fn ui(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
             header(app, f, chunks[0]);
             body(app, f, chunks[1]);
         }
-        Page::News(news) => {
+        Page::News(NewsPage { news, .. }) => {
             let block = Block::default()
                 .title(news.title.clone())
                 .borders(Borders::ALL);
@@ -41,15 +41,25 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
             .news
             .iter()
             .map(|news| {
+                let color = if news.seen {
+                    Some(Color::DarkGray)
+                } else {
+                    None
+                };
                 let title = Line::from(Span::styled(
                     news.title.clone(),
-                    Style::default().add_modifier(Modifier::BOLD),
+                    match news.seen {
+                        true => Style::default().fg(color.unwrap()),
+                        false => Style::default().add_modifier(Modifier::BOLD),
+                    },
                 ));
 
                 let mut text = Text::from(title);
                 if let Some(preview) = news.preview.clone() {
-                    let preview_line =
-                        Line::from(Span::styled(preview, Style::default().fg(Color::White)));
+                    let preview_line = Line::from(Span::styled(
+                        preview,
+                        Style::default().fg(color.unwrap_or(Color::White)),
+                    ));
                     text.extend(vec![preview_line])
                 }
 
@@ -58,7 +68,7 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
                 if let Some(source) = news.source.clone() {
                     let source_span = Span::styled(
                         format!("Source: {}", source),
-                        Style::default().fg(Color::Green),
+                        Style::default().fg(color.unwrap_or(Color::Green)),
                     );
                     info_spans.push(source_span)
                 }
@@ -66,7 +76,7 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
                 if let Some(author) = news.author.clone() {
                     let source_span = Span::styled(
                         format!("Author: {}", author),
-                        Style::default().fg(Color::Red),
+                        Style::default().fg(color.unwrap_or(Color::Red)),
                     );
                     info_spans.push(source_span)
                 }

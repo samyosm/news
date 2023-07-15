@@ -19,4 +19,6 @@ pub struct News {
     pub title: String,
     pub preview: Option<String>,
     pub content: String,
+    #[serde(default)]
+    pub seen: bool,
 }

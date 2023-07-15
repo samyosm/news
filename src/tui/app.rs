@@ -21,7 +21,7 @@ pub struct App {
 #[derive(Debug)]
 pub enum Page {
     Home(HomePage),
-    News(News),
+    News(NewsPage),
 }
 
 impl Default for Page {
@@ -30,10 +30,16 @@ impl Default for Page {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct HomePage {
     pub selected_index: usize,
     pub selected_news: usize,
+}
+
+#[derive(Debug, Default)]
+pub struct NewsPage {
+    pub news: News,
+    pub home_page: HomePage,
 }
 
 impl App {

@@ -1,6 +1,8 @@
+use std::ops::DerefMut;
+
 use crossterm::event::{Event, KeyCode, KeyEvent};
 
-use super::app::{App, Page};
+use super::app::{App, NewsPage, Page};
 
 pub fn state(app: &mut App, event: Event) {
     if let Event::Key(event) = event {
@@ -56,12 +58,16 @@ fn key_event(app: &mut App, event: KeyEvent) {
         KeyCode::Enter => {
             if let Page::Home(home) = &mut app.page {
                 let news = app.categories[home.selected_index].news[home.selected_news].clone();
-                app.page = Page::News(news)
+                app.categories[home.selected_index].news[home.selected_news].seen = true;
+                app.page = Page::News(NewsPage {
+                    news,
+                    home_page: home.clone(),
+                });
             }
         }
         KeyCode::Esc => {
-            if let Page::News(_) = &mut app.page {
-                app.page = Page::default()
+            if let Page::News(news_page) = &mut app.page {
+                app.page = Page::Home(news_page.home_page.clone());
             }
         }
 
