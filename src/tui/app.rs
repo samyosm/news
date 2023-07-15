@@ -5,28 +5,42 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use derivative::Derivative;
 use ratatui::{backend::CrosstermBackend, Terminal};
 
-use crate::news::NewsCategories;
+use crate::news::{News, NewsCategories};
 
 use super::{state, ui};
 
-#[derive(Derivative)]
-#[derivative(Debug)]
+#[derive(Debug)]
 pub struct App {
     pub categories: Vec<NewsCategories>,
+    pub online: bool,
+    pub page: Page,
+}
+
+#[derive(Debug)]
+pub enum Page {
+    Home(HomePage),
+    News(News),
+}
+
+impl Default for Page {
+    fn default() -> Self {
+        Page::Home(HomePage::default())
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct HomePage {
     pub selected_index: usize,
     pub selected_news: usize,
-    pub online: bool,
 }
 
 impl App {
     pub fn new(categories: Vec<NewsCategories>) -> Self {
         Self {
             categories,
-            selected_index: 0,
-            selected_news: 0,
+            page: Page::default(),
             online: true,
         }
     }
