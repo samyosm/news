@@ -23,7 +23,7 @@ cargo build
 ## Usage
 
 ```sh
-news
+newsie
 ```
 
 ### Home Page

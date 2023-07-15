@@ -69,7 +69,7 @@ pub fn save_news_categories_to_cache(
 }
 
 pub fn fetch_news_categories() -> Result<Vec<NewsCategories>, Box<dyn std::error::Error>> {
-    let res = ureq::get("http://localhost:5000/api/v1/today")
+    let res = ureq::get("https://news-ie.uk.r.appspot.com/api/v1/today")
         .call()?
         .into_reader();
 
