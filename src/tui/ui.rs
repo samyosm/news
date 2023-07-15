@@ -1,4 +1,4 @@
-use std::io;
+use std::{io};
 
 use ratatui::{
     backend::CrosstermBackend,
@@ -45,6 +45,7 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
                     news.title.clone(),
                     Style::default().add_modifier(Modifier::BOLD),
                 ));
+
                 let mut text = Text::from(title);
                 if let Some(preview) = news.preview.clone() {
                     let preview_line =
@@ -52,6 +53,30 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
                     text.extend(vec![preview_line])
                 }
 
+                let mut info_spans = vec![];
+
+                if let Some(source) = news.source.clone() {
+                    let source_span = Span::styled(
+                        format!("Source: {}", source),
+                        Style::default().fg(Color::Green),
+                    );
+                    info_spans.push(source_span)
+                }
+
+                if let Some(author) = news.author.clone() {
+                    let source_span = Span::styled(
+                        format!("Author: {}", author),
+                        Style::default().fg(Color::Red),
+                    );
+                    info_spans.push(source_span)
+                }
+
+                let info_spans: Vec<Span> = info_spans
+                    .into_iter()
+                    .intersperse(Span::raw(" • "))
+                    .collect();
+
+                text.extend(vec![info_spans]);
                 text.extend(vec!["\n"]);
 
                 ListItem::new(text)

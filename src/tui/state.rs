@@ -1,13 +1,10 @@
 use crossterm::event::{Event, KeyCode, KeyEvent};
 
-use crate::news::News;
-
 use super::app::{App, Page};
 
 pub fn state(app: &mut App, event: Event) {
-    match event {
-        Event::Key(event) => key_event(app, event),
-        _ => {}
+    if let Event::Key(event) = event {
+        key_event(app, event)
     }
 }
 
