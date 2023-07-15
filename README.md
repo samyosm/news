@@ -10,7 +10,7 @@ News is a text user interface that allows you to consume daily news in multiple 
 ## Installation
 ### Using Cargo
 ```sh
-cargo install news
+cargo install newsie
 ```
 
 ### Manual Build

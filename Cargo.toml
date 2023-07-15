@@ -1,5 +1,5 @@
 [package]
-name = "news"
+name = "newsie"
 version = "0.1.0"
 edition = "2021"
 authors = ["Osmium <samy.osmium@gmail.com>"]
