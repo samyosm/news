@@ -5,7 +5,7 @@
 
 News is a text user interface that allows you to consume daily news in multiple categories like technology, science, health and so on.
 
-## Insallation
+## Installation
 ### Using Cargo
 ```console
 $ cargo install news

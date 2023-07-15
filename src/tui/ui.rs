@@ -98,11 +98,11 @@ pub fn header(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect
     if let Page::Home(home) = &app.page {
         let tab_count = app.categories.len();
         let tab_width = 100 / tab_count;
-        let contraints = vec![Constraint::Percentage(tab_width as u16); tab_count];
+        let constraints = vec![Constraint::Percentage(tab_width as u16); tab_count];
 
         let header = Layout::default()
             .direction(Direction::Horizontal)
-            .constraints(contraints)
+            .constraints(constraints)
             .split(area);
 
         let general = Block::default().borders(Borders::BOTTOM);
