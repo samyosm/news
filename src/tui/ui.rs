@@ -4,6 +4,7 @@ use ratatui::{
     backend::CrosstermBackend,
     layout::{Alignment, Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
+    text::{Line, Span, Text},
     widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
     Frame,
 };
@@ -27,7 +28,22 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
         .unwrap()
         .news
         .iter()
-        .map(|news| ListItem::new(news.title.clone()))
+        .map(|news| {
+            let title = Line::from(Span::styled(
+                news.title.clone(),
+                Style::default().add_modifier(Modifier::BOLD),
+            ));
+            let mut text = Text::from(title);
+            if let Some(preview) = news.preview.clone() {
+                let preview_line =
+                    Line::from(Span::styled(preview, Style::default().fg(Color::White)));
+                text.extend(vec![preview_line])
+            }
+
+            text.extend(vec!["\n"]);
+
+            ListItem::new(text)
+        })
         .collect();
 
     let list = List::new(items)
@@ -35,6 +51,7 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
         .style(Style::default().fg(Color::White))
         .highlight_style(Style::default().add_modifier(Modifier::ITALIC))
         .highlight_symbol(">>");
+
     let mut state = ListState::default().with_selected(Some(app.selected_news));
     f.render_stateful_widget(list, area, &mut state);
 }

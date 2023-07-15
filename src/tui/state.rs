@@ -12,7 +12,7 @@ pub fn state(app: &mut App, event: Event) {
 fn key_event(app: &mut App, event: KeyEvent) {
     match event.code {
         KeyCode::Char('q') => app.online = false,
-        KeyCode::Tab => {
+        KeyCode::Tab | KeyCode::Char('l') => {
             app.selected_news = 0;
             // TODO: Enhance this
             app.selected_index += 1;
@@ -20,7 +20,7 @@ fn key_event(app: &mut App, event: KeyEvent) {
                 app.selected_index = 0
             }
         }
-        KeyCode::BackTab => {
+        KeyCode::BackTab | KeyCode::Char('h') => {
             app.selected_news = 0;
             // TODO: Enhance this
             if app.selected_index == 0 {
@@ -29,13 +29,13 @@ fn key_event(app: &mut App, event: KeyEvent) {
                 app.selected_index -= 1
             }
         }
-        KeyCode::Right | KeyCode::Char('l') => {
+        KeyCode::Down | KeyCode::Char('j') => {
             app.selected_news += 1;
             if app.selected_news > app.categories.get(app.selected_index).unwrap().news.len() - 1 {
                 app.selected_news = 0;
             }
         }
-        KeyCode::Left | KeyCode::Char('h') => {
+        KeyCode::Up | KeyCode::Char('k') => {
             if app.selected_news == 0 {
                 app.selected_news = app.categories.get(app.selected_index).unwrap().news.len() - 1
             } else {

@@ -9,6 +9,7 @@ use std::{
 use tui::App;
 
 fn main() -> Result<(), io::Error> {
+    // Load from cache or fetch
     let file = File::open("/home/samy/news/src/test.json")?;
     let reader = BufReader::new(file);
 
