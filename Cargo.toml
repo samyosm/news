@@ -2,6 +2,14 @@
 name = "news"
 version = "0.1.0"
 edition = "2021"
+authors = ["Osmium <samy.osmium@gmail.com>"]
+description = "Consume the news in yout terminal 📰"
+readme = "README.md"
+repository = "https://github.com/samyosm/news"
+license-file = "LICENSE"
+keywords = ["tui", "news"]
+categories = ["command-line-interface"]
+
 
 [profile.release]
 opt-level = 'z'   # Optimize for size
