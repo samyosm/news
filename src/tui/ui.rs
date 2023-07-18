@@ -8,7 +8,7 @@ use ratatui::{
     text::{Line, Span, Text},
     widgets::{
         block::Title, Block, Borders, List, ListItem, ListState, Paragraph, Scrollbar,
-        ScrollbarOrientation, ScrollbarState,
+        ScrollbarOrientation,
     },
     Frame,
 };

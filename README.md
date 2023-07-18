@@ -10,7 +10,7 @@ News is a text user interface that allows you to consume daily news in multiple 
 ## Installation
 ### Using Cargo
 ```sh
-cargo install newsie
+cargo install news
 ```
 
 ### Manual Build
@@ -23,7 +23,7 @@ cargo build
 ## Usage
 
 ```sh
-newsie
+news
 ```
 
 ### Home Page
@@ -33,12 +33,16 @@ newsie
 | k, up        | Go up                          |
 | l, tab       | Switch category to the right   |
 | h, shift+tab | Switch category to the left    |
-| enter        | view the content of an article |
+| enter        | View the content of an article |
+| q            | Quit                           |
 
 ### Article view
-| key | description          |
-| --- | -------------------- |
-| esc | go back to home page |
+| key     | description          |
+| ------- | -------------------- |
+| esc     | Go back to home page |
+| j, down | Sroll down           |
+| k, up   | Scroll up            |
+| q       | Quit                 |
 
 ## License
 [GPL-3.0](./LICENSE)
