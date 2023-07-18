@@ -1,4 +1,4 @@
-use std::io;
+use std::{io, time::Duration};
 
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture},
@@ -7,7 +7,10 @@ use crossterm::{
 };
 use ratatui::{backend::CrosstermBackend, widgets::ScrollbarState, Terminal};
 
-use crate::news::{News, NewsCategories};
+use crate::{
+    fetch::get_news_categories,
+    news::{News, NewsCategories},
+};
 
 use super::{state, ui};
 
@@ -22,6 +25,7 @@ pub struct App {
 pub enum Page {
     Home(HomePage),
     News(NewsPage),
+    Message(String),
 }
 
 impl Default for Page {
@@ -45,10 +49,10 @@ pub struct NewsPage {
 }
 
 impl App {
-    pub fn new(categories: Vec<NewsCategories>) -> Self {
+    pub fn new() -> Self {
         Self {
-            categories,
-            page: Page::default(),
+            categories: Vec::new(),
+            page: Page::Message("Please wait while we fetch your tasks.\nIt should be noted that this might take a while.".to_string()),
             online: true,
         }
     }
@@ -63,11 +67,18 @@ impl App {
 
         terminal.draw(|f| ui(self, f))?;
 
-        while self.online {
-            let event = event::read()?;
-            state(self, event);
+        let categories = get_news_categories().expect("couldn't fetch news categories");
+        self.categories = categories;
+        self.page = Page::Home(HomePage::default());
 
+        while self.online {
             terminal.draw(|f| ui(self, f))?;
+
+            // TODO: Make const
+            if crossterm::event::poll(Duration::from_millis(250))? {
+                let event = event::read()?;
+                state(self, event);
+            }
         }
 
         // restore terminal

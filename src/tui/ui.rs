@@ -7,7 +7,7 @@ use ratatui::{
     style::{Color, Modifier, Style, Stylize},
     text::{Line, Span, Text},
     widgets::{
-        block::Title, Block, Borders, List, ListItem, ListState, Paragraph, Scrollbar,
+        block::Title, Block, BorderType, Borders, List, ListItem, ListState, Paragraph, Scrollbar,
         ScrollbarOrientation,
     },
     Frame,
@@ -55,6 +55,18 @@ pub fn ui(app: &mut App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
                 }),
                 scroll_state,
             );
+        }
+        Page::Message(message) => {
+            let block = Block::default()
+                .title(Title::from("Message").alignment(Alignment::Center))
+                .borders(Borders::ALL)
+                .border_type(BorderType::Rounded);
+
+            let paragraph = Paragraph::new(Text::from(message.as_str()))
+                .block(block)
+                .alignment(Alignment::Center);
+
+            f.render_widget(paragraph, f.size());
         }
     }
 }
