@@ -3,16 +3,20 @@ use std::io;
 use ratatui::{
     backend::CrosstermBackend,
     layout::{Alignment, Constraint, Direction, Layout, Rect},
-    style::{Color, Modifier, Style},
+    prelude::Margin,
+    style::{Color, Modifier, Style, Stylize},
     text::{Line, Span, Text},
-    widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
+    widgets::{
+        block::Title, Block, Borders, List, ListItem, ListState, Paragraph, Scrollbar,
+        ScrollbarOrientation, ScrollbarState,
+    },
     Frame,
 };
 
 use super::app::{App, NewsPage, Page};
 
-pub fn ui(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
-    match &app.page {
+pub fn ui(app: &mut App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
+    match &mut app.page {
         Page::Home(_) => {
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
@@ -22,12 +26,35 @@ pub fn ui(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>) {
             header(app, f, chunks[0]);
             body(app, f, chunks[1]);
         }
-        Page::News(NewsPage { news, .. }) => {
+        Page::News(NewsPage {
+            news,
+            scroll_state,
+            scroll_position,
+            ..
+        }) => {
             let block = Block::default()
-                .title(news.title.clone())
+                .title(Title::from(news.title.blue().bold()).alignment(Alignment::Center))
+                .title(
+                    Title::from("j/↓ to go down, k/↑ to go up, esc to go back, q to quit".blue())
+                        .alignment(Alignment::Left),
+                )
                 .borders(Borders::ALL);
-            let paragraph = Paragraph::new(news.content.clone()).block(block);
-            f.render_widget(paragraph, f.size())
+            let paragraph = Paragraph::new(news.content.clone())
+                .block(block)
+                .scroll((*scroll_position, 0));
+            f.render_widget(paragraph, f.size());
+
+            f.render_stateful_widget(
+                Scrollbar::default()
+                    .orientation(ScrollbarOrientation::VerticalLeft)
+                    .begin_symbol(Some("↑"))
+                    .end_symbol(Some("↓")),
+                f.size().inner(&Margin {
+                    vertical: 10,
+                    horizontal: 10,
+                }),
+                scroll_state,
+            );
         }
     }
 }

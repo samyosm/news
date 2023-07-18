@@ -1,4 +1,5 @@
 use crossterm::event::{Event, KeyCode, KeyEvent};
+use ratatui::widgets::ScrollbarState;
 
 use super::app::{App, NewsPage, Page};
 
@@ -41,6 +42,9 @@ fn key_event(app: &mut App, event: KeyEvent) {
                 {
                     home.selected_news = 0;
                 }
+            } else if let Page::News(news) = &mut app.page {
+                news.scroll_position = news.scroll_position.saturating_add(1);
+                news.scroll_state = news.scroll_state.position(news.scroll_position);
             }
         }
         KeyCode::Up | KeyCode::Char('k') => {
@@ -51,6 +55,9 @@ fn key_event(app: &mut App, event: KeyEvent) {
                 } else {
                     home.selected_news -= 1
                 }
+            } else if let Page::News(news) = &mut app.page {
+                news.scroll_position = news.scroll_position.saturating_sub(1);
+                news.scroll_state = news.scroll_state.position(news.scroll_position);
             }
         }
         KeyCode::Enter => {
@@ -59,6 +66,8 @@ fn key_event(app: &mut App, event: KeyEvent) {
                 app.categories[home.selected_index].news[home.selected_news].seen = true;
                 app.page = Page::News(NewsPage {
                     news,
+                    scroll_position: 0,
+                    scroll_state: ScrollbarState::default(),
                     home_page: home.clone(),
                 });
             }

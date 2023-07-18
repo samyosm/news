@@ -5,7 +5,7 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use ratatui::{backend::CrosstermBackend, Terminal};
+use ratatui::{backend::CrosstermBackend, widgets::ScrollbarState, Terminal};
 
 use crate::news::{News, NewsCategories};
 
@@ -39,6 +39,8 @@ pub struct HomePage {
 #[derive(Debug, Default)]
 pub struct NewsPage {
     pub news: News,
+    pub scroll_position: u16,
+    pub scroll_state: ScrollbarState,
     pub home_page: HomePage,
 }
 
