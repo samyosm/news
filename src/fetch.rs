@@ -21,11 +21,11 @@ impl std::error::Error for CacheExist {}
 
 pub fn get_news_categories() -> Result<Vec<NewsCategories>, Box<dyn std::error::Error>> {
     if let Some(categories) = cache_news_categories()? {
-        return Ok(categories);
+        Ok(categories)
     } else {
         let categories = fetch_news_categories()?;
         save_news_categories_to_cache(&categories)?;
-        return Ok(categories);
+        Ok(categories)
     }
 }
 
@@ -65,6 +65,7 @@ pub fn save_news_categories_to_cache(
         let file = File::create(&path)?;
         serde_json::to_writer(file, categories)?;
     }
+
     Ok(())
 }
 
