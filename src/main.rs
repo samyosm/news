@@ -1,4 +1,3 @@
-#![feature(iter_intersperse)]
 mod fetch;
 mod news;
 mod tui;

@@ -108,10 +108,8 @@ pub fn body(app: &App, f: &mut Frame<CrosstermBackend<io::Stdout>>, area: Rect) 
                     info_spans.push(source_span)
                 }
 
-                let info_spans: Vec<Span> = info_spans
-                    .into_iter()
-                    .intersperse(Span::raw(" • "))
-                    .collect();
+                let info_spans: Vec<Span> =
+                    itertools::intersperse(info_spans, Span::raw(" • ")).collect();
 
                 text.extend(vec![info_spans]);
                 text.extend(vec!["\n"]);
